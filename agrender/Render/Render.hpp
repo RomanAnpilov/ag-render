@@ -11,7 +11,11 @@
 #include <vector>
 #include <chrono>
 #include <iostream>
-#include "TriangleData.h"
+#include <memory>
+
+#include "MathUtils.hpp"
+#include "Camera.hpp"
+#include "RenderPipeline.hpp"
 
 class Renderer
 {
@@ -21,44 +25,38 @@ public:
     void draw(MTK::View* pView);
     
 private:
-    void updateViewportSize(const simd::float2& size);
-    
-    std::vector<MTL::Buffer*> makeTriangleDataBuffers(uint count);
-    MTL4::ArgumentTable* makeArgumentTable();
-    MTL::ResidencySet* makeResidencySet();
+    MTL::Device* device;
+    MTK::View* mtk_view;
+    MTL4::CommandQueue* command_queue;
+    MTL4::CommandBuffer* command_buffer;
+    std::vector<MTL4::CommandAllocator*> _commandAllocators;
     std::vector<MTL4::CommandAllocator*> makeCommandAllocators(uint count);
-    MTL::RenderPipelineState* compileRenderPipeline(MTL::PixelFormat colorPixelFormat);
-    MTL4::Compiler* createDefaultMetalCompiler();
-    void waitOnSharedEvent(MTL::SharedEvent* pSharedEvent, uint64_t earlierFrameNumber);
-    void setViewportSize(simd_uint2 size, MTL4::RenderCommandEncoder* pRenderEncoder);
-    void setRenderPassArguments(MTL4::RenderCommandEncoder* pRenderEncoder,
-                                NS::UInteger frameNumber,
-                                MTL4::ArgumentTable* pArgumentTable,
-                                MTL::Buffer* pVertexBuffer,
-                                MTL::Buffer* pViewportSizeBuffer);
+    void initializeCoreInstances();
+    RenderPipeline render_pipeline;
+    // Manage all metal-core instances
     
-    void submitCommandBuffer(MTL4::CommandBuffer* pCommandBuffer,
-                             MTL4::CommandQueue* pCommandQueue,
-                             MTK::View* pView);
-
-    
-    MTL::Device* _pDevice;
-    MTL4::CommandQueue* _pCommandQueue;
-    MTL4::CommandBuffer* _pCommandBuffer;
-    MTL::Library* _pDefaultLibrary;
-    MTL4::ArgumentTable* _pArgumentTable;
+    // Resources, buffers and etc
+    MTL4::ArgumentTable* _pVertexArgumentTable;
+    MTL4::ArgumentTable* _pFragmentArgumentTable;
     MTL::ResidencySet* _pResidencySet;
-    MTL::SharedEvent* _pSharedEvent;
-    MTL::RenderPipelineState* _pRenderPipelineState;
-    MTL::DepthStencilState* pDepthState;
-    
-    uint64_t _frameNumber;
-    simd_uint2 _viewportSize;
-    Uniforms uniforms;
-    
     MTL::Buffer* _pViewportSizeBuffer;
     MTL::Buffer* _pUniformsBuffer;
     std::vector<MTL::Buffer *> _triangleVertexBuffers;
-    std::vector<MTL4::CommandAllocator*> _commandAllocators;
+    void initializeResources();
     
+    // Synchronizations
+    uint64_t _frameNumber;
+    MTL::SharedEvent* _pSharedEvent;
+    void waitOnSharedEvent(MTL::SharedEvent* pSharedEvent, uint64_t earlierFrameNumber);
+    
+    // Utilites and services
+    Camera _mainCamera;
+    simd_uint2 _viewportSize;
+    CameraUniforms uniforms;
+    void updateViewportSize(const simd::float2& size);
+    void setViewportSize(simd_uint2 size, MTL4::RenderCommandEncoder* pRenderEncoder);
+
+    void submitCommandBuffer(MTL4::CommandBuffer* pCommandBuffer,
+                             MTL4::CommandQueue* pCommandQueue,
+                             MTK::View* pView);
 };

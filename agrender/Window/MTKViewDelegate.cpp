@@ -10,8 +10,7 @@
 MTKViewDelegate::MTKViewDelegate( MTL::Device* pDevice, MTK::View* pView )
 : MTK::ViewDelegate()
 , _pRenderer( new Renderer( pDevice, pView ) )
-{
-}
+{}
 
 MTKViewDelegate::~MTKViewDelegate()
 {
