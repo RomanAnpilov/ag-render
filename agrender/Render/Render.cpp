@@ -28,7 +28,7 @@ void Renderer::draw(MTK::View* pView)
     render_pipeline.render(frame_data);
     
     command_buffer->endCommandBuffer();
-    this->submitCommandBuffer(command_buffer, command_queue, pView);
+    submitCommandBuffer(command_buffer, command_queue, pView);
     command_queue->signalEvent(_pSharedEvent, _frameNumber);
 }
 

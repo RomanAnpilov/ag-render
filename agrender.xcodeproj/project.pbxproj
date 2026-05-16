@@ -12,6 +12,8 @@
 		0650F0CE2F34FA0C005ECA21 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0650F0CD2F34FA0C005ECA21 /* Foundation.framework */; };
 		0650F0D02F34FC49005ECA21 /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0650F0CF2F34FC49005ECA21 /* MetalKit.framework */; };
 		0650F0D22F34FCBA005ECA21 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0650F0D12F34FCBA005ECA21 /* AppKit.framework */; };
+		0658CC212FB88F7C00B849B9 /* libsimdjson.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0658CC1F2FB88F7C00B849B9 /* libsimdjson.a */; };
+		0658CC222FB88F7C00B849B9 /* libfastgltf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0658CC202FB88F7C00B849B9 /* libfastgltf.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -33,6 +35,11 @@
 		0650F0CD2F34FA0C005ECA21 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		0650F0CF2F34FC49005ECA21 /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
 		0650F0D12F34FCBA005ECA21 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		0658CC102FB887B000B849B9 /* libspdlog.1.17.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libspdlog.1.17.0.dylib; path = ../../../../opt/homebrew/Cellar/spdlog/1.17.0/lib/libspdlog.1.17.0.dylib; sourceTree = "<group>"; };
+		0658CC1B2FB88C8800B849B9 /* libfastgltf.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfastgltf.a; path = external/fastgltf/build/Release/libfastgltf.a; sourceTree = "<group>"; };
+		0658CC1D2FB88E3000B849B9 /* libsimdjson.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsimdjson.a; path = "external/fastgltf/deps/simdjson/simdjson-build/Release/libsimdjson.a"; sourceTree = "<group>"; };
+		0658CC1F2FB88F7C00B849B9 /* libsimdjson.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsimdjson.a; path = external/fastgltf/lib/libsimdjson.a; sourceTree = "<group>"; };
+		0658CC202FB88F7C00B849B9 /* libfastgltf.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfastgltf.a; path = external/fastgltf/lib/libfastgltf.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -48,6 +55,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0658CC212FB88F7C00B849B9 /* libsimdjson.a in Frameworks */,
+				0658CC222FB88F7C00B849B9 /* libfastgltf.a in Frameworks */,
 				0650F0D22F34FCBA005ECA21 /* AppKit.framework in Frameworks */,
 				0650F0D02F34FC49005ECA21 /* MetalKit.framework in Frameworks */,
 				0650F0CE2F34FA0C005ECA21 /* Foundation.framework in Frameworks */,
@@ -79,6 +88,11 @@
 		0650F0C82F34FA04005ECA21 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0658CC202FB88F7C00B849B9 /* libfastgltf.a */,
+				0658CC1D2FB88E3000B849B9 /* libsimdjson.a */,
+				0658CC1B2FB88C8800B849B9 /* libfastgltf.a */,
+				0658CC1F2FB88F7C00B849B9 /* libsimdjson.a */,
+				0658CC102FB887B000B849B9 /* libspdlog.1.17.0.dylib */,
 				0650F0D12F34FCBA005ECA21 /* AppKit.framework */,
 				0650F0CF2F34FC49005ECA21 /* MetalKit.framework */,
 				0650F0CD2F34FA0C005ECA21 /* Foundation.framework */,
@@ -277,8 +291,16 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				HEADER_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/metal-cpp",
-					"$(PROJECT_DIR)/metal-cpp-extensions",
+					"$(PROJECT_DIR)/external/metal-cpp",
+					"$(PROJECT_DIR)/external/metal-cpp-extensions",
+					"$(PROJECT_DIR)/external/fastgltf/include",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/homebrew/Cellar/spdlog/1.17.0/lib,
+					"$(PROJECT_DIR)/external/fastgltf/build/Release",
+					"$(PROJECT_DIR)/external/fastgltf/deps/simdjson/simdjson-build/Release",
+					"$(PROJECT_DIR)/external/fastgltf/lib",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -289,8 +311,16 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				HEADER_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/metal-cpp",
-					"$(PROJECT_DIR)/metal-cpp-extensions",
+					"$(PROJECT_DIR)/external/metal-cpp",
+					"$(PROJECT_DIR)/external/metal-cpp-extensions",
+					"$(PROJECT_DIR)/external/fastgltf/include",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/homebrew/Cellar/spdlog/1.17.0/lib,
+					"$(PROJECT_DIR)/external/fastgltf/build/Release",
+					"$(PROJECT_DIR)/external/fastgltf/deps/simdjson/simdjson-build/Release",
+					"$(PROJECT_DIR)/external/fastgltf/lib",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
