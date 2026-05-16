@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		06325D542FB8D2E800AF9001 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06325D532FB8D2E800AF9001 /* GameController.framework */; };
 		0650F0CA2F34FA04005ECA21 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0650F0C92F34FA04005ECA21 /* Metal.framework */; };
 		0650F0CC2F34FA08005ECA21 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0650F0CB2F34FA08005ECA21 /* QuartzCore.framework */; };
 		0650F0CE2F34FA0C005ECA21 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0650F0CD2F34FA0C005ECA21 /* Foundation.framework */; };
@@ -29,6 +30,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		06325D532FB8D2E800AF9001 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = System/Library/Frameworks/GameController.framework; sourceTree = SDKROOT; };
 		0650F0BE2F34F996005ECA21 /* agrender */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = agrender; sourceTree = BUILT_PRODUCTS_DIR; };
 		0650F0C92F34FA04005ECA21 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
 		0650F0CB2F34FA08005ECA21 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -55,6 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06325D542FB8D2E800AF9001 /* GameController.framework in Frameworks */,
 				0658CC212FB88F7C00B849B9 /* libsimdjson.a in Frameworks */,
 				0658CC222FB88F7C00B849B9 /* libfastgltf.a in Frameworks */,
 				0650F0D22F34FCBA005ECA21 /* AppKit.framework in Frameworks */,
@@ -88,6 +91,7 @@
 		0650F0C82F34FA04005ECA21 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				06325D532FB8D2E800AF9001 /* GameController.framework */,
 				0658CC202FB88F7C00B849B9 /* libfastgltf.a */,
 				0658CC1D2FB88E3000B849B9 /* libsimdjson.a */,
 				0658CC1B2FB88C8800B849B9 /* libfastgltf.a */,
@@ -303,6 +307,8 @@
 					"$(PROJECT_DIR)/external/fastgltf/build/Release",
 					"$(PROJECT_DIR)/external/fastgltf/deps/simdjson/simdjson-build/Release",
 					"$(PROJECT_DIR)/external/fastgltf/lib",
+					"$(PROJECT_DIR)/agrender/ImGui/examples/libs/glfw/lib-vc2010-32",
+					"$(PROJECT_DIR)/agrender/ImGui/examples/libs/glfw/lib-vc2010-64",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -326,6 +332,8 @@
 					"$(PROJECT_DIR)/external/fastgltf/build/Release",
 					"$(PROJECT_DIR)/external/fastgltf/deps/simdjson/simdjson-build/Release",
 					"$(PROJECT_DIR)/external/fastgltf/lib",
+					"$(PROJECT_DIR)/agrender/ImGui/examples/libs/glfw/lib-vc2010-32",
+					"$(PROJECT_DIR)/agrender/ImGui/examples/libs/glfw/lib-vc2010-64",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 6.0;

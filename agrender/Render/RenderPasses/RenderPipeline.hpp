@@ -1,14 +1,18 @@
 #pragma once
 
 #include <Metal/Metal.hpp>
-#include "TriangleRenderPass.hpp"
+#include <MetalKit/MetalKit.hpp>
+
 #include "GpuUploader.hpp"
+#include "ImGuiPass.hpp"
+#include "TriangleRenderPass.hpp"
 
 struct RenderPipelineInitializeData
 {
     MTL::Device* device;
     MTL::PixelFormat color_pixel_format;
     MTL::PixelFormat depth_pixel_format;
+    MTK::View* view;
 };
 
 struct FrameData
@@ -17,6 +21,7 @@ struct FrameData
     MTL4::CommandBuffer* command_buffer;
     MTL4::RenderPassDescriptor* render_pass_descriptor;
     MTL4::ArgumentTable* vertex_argument_table;
+    MTL::ResidencySet* residency_set;
 };
 
 class RenderPipeline {
@@ -28,6 +33,7 @@ private:
     MTL::DepthStencilState* depth_state;
     
     TriangleRenderPass triangle_render_pass;
+    ImGuiPass imgui_render_pass;
 private:
     MTL::Device* device;
     MTL::Library* shader_library;

@@ -23,7 +23,8 @@ void Renderer::draw(MTK::View* pView)
         .command_allocator = _commandAllocators[frameIndex],
         .command_buffer = command_buffer,
         .render_pass_descriptor = pView->currentMTL4RenderPassDescriptor(),
-        .vertex_argument_table = _pVertexArgumentTable
+        .vertex_argument_table = _pVertexArgumentTable,
+        .residency_set = _pResidencySet
     };
     
     // TODO: Move somewhere to manager all gpu resources
@@ -69,7 +70,8 @@ _mainCamera(Camera())
     RenderPipelineInitializeData initialize_data = {
         .device = device,
         .color_pixel_format = pView->colorPixelFormat(),
-        .depth_pixel_format = pView->depthStencilPixelFormat()
+        .depth_pixel_format = pView->depthStencilPixelFormat(),
+        .view = mtk_view
     };
     
     render_pipeline.initialize(initialize_data);

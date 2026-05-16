@@ -23,6 +23,7 @@ void RenderPipeline::initialize(RenderPipelineInitializeData initalize_data)
     depth_descriptor->release();
     
     triangle_render_pass.initialize(device, shader_library, color_pixel_format);
+    imgui_render_pass.initialize(device, initalize_data.view);
 }
 
 void RenderPipeline::render(FrameData frame_data, const GpuModel& gpu_model)
@@ -43,6 +44,7 @@ void RenderPipeline::render(FrameData frame_data, const GpuModel& gpu_model)
     render_encoder->setFrontFacingWinding(MTL::WindingCounterClockwise);
     
     triangle_render_pass.draw(render_encoder, gpu_model);
+    imgui_render_pass.draw(frame_data.render_pass_descriptor, frame_data.command_buffer, render_encoder, frame_data.residency_set);
     
     render_encoder->endEncoding();
 }
