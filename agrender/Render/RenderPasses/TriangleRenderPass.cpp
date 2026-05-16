@@ -14,7 +14,7 @@ void TriangleRenderPass::initialize(MTL::Device* device, MTL::Library* shader_li
     render_pso = compileRenderPipeline(colorPixelFormat);
 }
 
-void TriangleRenderPass::draw(MTL4::RenderCommandEncoder* render_encoder)
+void TriangleRenderPass::draw(MTL4::RenderCommandEncoder* render_encoder, const GpuModel& gpu_model)
 {
     // put it somewhere
     
@@ -31,7 +31,21 @@ void TriangleRenderPass::draw(MTL4::RenderCommandEncoder* render_encoder)
     //    pArgumentTable->setAddress(_pUniformsBuffer->gpuAddress(), 2);
     
     render_encoder->setRenderPipelineState(render_pso);
-    render_encoder->drawPrimitives(MTL::PrimitiveTypeTriangle, 0, 3);
+    
+    for (const GpuMesh& gpu_mesh : gpu_model.meshses)
+    {
+        for (const GpuPrimitiveRange& primitive: gpu_mesh.primitives)
+        {
+            render_encoder->drawIndexedPrimitives(MTL::PrimitiveTypeTriangle,
+                                                  primitive.index_count,
+                                                  MTL::IndexTypeUInt32,
+                                                  gpu_model.indexBuffer->gpuAddress(),
+                                                  primitive.index_offset * sizeof(uint32_t));
+        }
+    }
+    
+//    render_encoder->setRenderPipelineState(render_pso);
+//    render_encoder->drawPrimitives(MTL::PrimitiveTypeTriangle, 0, 3);
 }
 
 MTL::RenderPipelineState* TriangleRenderPass::compileRenderPipeline(MTL::PixelFormat colorPixelFormat) {

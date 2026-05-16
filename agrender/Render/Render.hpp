@@ -16,6 +16,8 @@
 #include "MathUtils.hpp"
 #include "Camera.hpp"
 #include "RenderPipeline.hpp"
+#include "AssetImporter.hpp"
+#include "GpuUploader.hpp"
 
 class Renderer
 {
@@ -25,6 +27,7 @@ public:
     void draw(MTK::View* pView);
     
 private:
+    GpuModel gpu_model;
     MTL::Device* device;
     MTK::View* mtk_view;
     MTL4::CommandQueue* command_queue;

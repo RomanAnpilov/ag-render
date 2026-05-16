@@ -5,6 +5,8 @@
 //  Created by ANPILOV Roman on 16.05.2026.
 //
 
+#pragma once
+
 #include <filesystem>
 #include <iostream>
 #include <simd/simd.h>

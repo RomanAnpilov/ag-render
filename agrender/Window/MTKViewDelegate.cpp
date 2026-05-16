@@ -13,8 +13,8 @@ MTKViewDelegate::MTKViewDelegate( MTL::Device* pDevice, MTK::View* pView )
 : MTK::ViewDelegate()
 {
     _pRenderer = new Renderer(pDevice, pView);
-    AssetImporter importer;
-    CpuModel model = importer.loadModel("/Users/ruaapr3/Developer/agrender/BoxTextured.gltf");
+//    AssetImporter importer;
+//    CpuModel model = importer.loadModel("/Users/ruaapr3/Developer/agrender/BoxTextured.gltf");
 }
 
 MTKViewDelegate::~MTKViewDelegate()

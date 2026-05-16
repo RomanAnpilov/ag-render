@@ -138,6 +138,7 @@
 				TargetAttributes = {
 					0650F0BD2F34F996005ECA21 = {
 						CreatedOnToolsVersion = 26.2;
+						LastSwiftMigration = 2620;
 					};
 				};
 			};
@@ -289,6 +290,7 @@
 		0650F0C62F34F996005ECA21 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/external/metal-cpp",
@@ -303,12 +305,15 @@
 					"$(PROJECT_DIR)/external/fastgltf/lib",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
 			};
 			name = Debug;
 		};
 		0650F0C72F34F996005ECA21 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/external/metal-cpp",
@@ -323,6 +328,7 @@
 					"$(PROJECT_DIR)/external/fastgltf/lib",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 6.0;
 			};
 			name = Release;
 		};

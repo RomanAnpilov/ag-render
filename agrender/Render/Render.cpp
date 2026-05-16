@@ -23,9 +23,13 @@ void Renderer::draw(MTK::View* pView)
         .command_allocator = _commandAllocators[frameIndex],
         .command_buffer = command_buffer,
         .render_pass_descriptor = pView->currentMTL4RenderPassDescriptor(),
+        .vertex_argument_table = _pVertexArgumentTable
     };
     
-    render_pipeline.render(frame_data);
+    // TODO: Move somewhere to manager all gpu resources
+    _pVertexArgumentTable->setAddress(gpu_model.vertexBuffer->gpuAddress(), 0);
+    
+    render_pipeline.render(frame_data, gpu_model);
     
     command_buffer->endCommandBuffer();
     submitCommandBuffer(command_buffer, command_queue, pView);
@@ -109,7 +113,18 @@ void Renderer::initializeResources()
     if (pError) { std::cerr << "Failed to create Residency Set: " << pError->localizedDescription()->utf8String() << std::endl; }
     
     // TODO: here add metalview residency set
-    // _pCommandQueue->addResidencySet()
+//    _pCommandQueue->addResidencySet();
+    
+    AssetImporter importer;
+    CpuModel model = importer.loadModel("/Users/ruaapr3/Developer/agrender/BoxTextured.gltf");
+    
+    GpuModelUploader uploader;
+    uploader.initialize(device);
+    gpu_model = uploader.upload(model);
+    
+    _pResidencySet->addAllocation(gpu_model.indexBuffer);
+    _pResidencySet->addAllocation(gpu_model.vertexBuffer);
+    
     
     // Buffers, textures and etc
 //    _triangleVertexBuffers = makeTriangleDataBuffers(kMaxFramesInFlight);

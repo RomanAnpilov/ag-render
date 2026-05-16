@@ -108,20 +108,23 @@
 #include <metal_stdlib>
 using namespace metal;
 
+struct Vertex {
+    float3 position;
+    float2 uv;
+    float3 normal;
+    float4 color;
+};
+
 struct VSOut {
     float4 position [[position]];
 };
 
-vertex VSOut vertexMain(uint vid [[vertex_id]])
+vertex VSOut vertexMain(uint vid [[vertex_id]], device const Vertex* verticies [[buffer(0)]])
 {
-    float2 pos[3] = {
-        float2( 0.0,  0.6),
-        float2(-0.6, -0.6),
-        float2( 0.6, -0.6)
-    };
+    Vertex v = verticies[vid];
 
     VSOut out;
-    out.position = float4(pos[vid], 0.0, 1.0);
+    out.position = float4(v.position, 1.0);
     return out;
 }
 

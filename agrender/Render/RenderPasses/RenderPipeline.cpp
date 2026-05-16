@@ -25,7 +25,7 @@ void RenderPipeline::initialize(RenderPipelineInitializeData initalize_data)
     triangle_render_pass.initialize(device, shader_library, color_pixel_format);
 }
 
-void RenderPipeline::render(FrameData frame_data)
+void RenderPipeline::render(FrameData frame_data, const GpuModel& gpu_model)
 {
     frame_data.command_allocator->reset();
     frame_data.command_buffer->beginCommandBuffer(frame_data.command_allocator);
@@ -37,15 +37,12 @@ void RenderPipeline::render(FrameData frame_data)
     
     MTL4::RenderCommandEncoder* render_encoder = frame_data.command_buffer->renderCommandEncoder(frame_data.render_pass_descriptor);
 //    setViewportSize(_viewportSize, pRenderEncoder); // maybe do not need it
-
-    triangle_render_pass.draw(render_encoder);
-    
+    render_encoder->setArgumentTable(frame_data.vertex_argument_table, MTL::RenderStageVertex);
     render_encoder->setDepthStencilState(depth_state);
-    
     render_encoder->setCullMode(MTL::CullModeBack);
     render_encoder->setFrontFacingWinding(MTL::WindingCounterClockwise);
     
-    render_encoder->drawPrimitives(MTL::PrimitiveTypeTriangle, 0, 3);
-
+    triangle_render_pass.draw(render_encoder, gpu_model);
+    
     render_encoder->endEncoding();
 }
