@@ -10,9 +10,6 @@
 #include "imgui_impl_metal.h"
 #include "imgui_impl_osx.h"
 
-#define RAYGUI_IMPLEMENTATION
-//#include "raygui.h"
-
 void ImGuiPass::initialize(MTL::Device *device, MTK::View *view)
 {
     this->device = device->retain();
@@ -27,7 +24,10 @@ void ImGuiPass::initialize(MTL::Device *device, MTK::View *view)
     ImGui_ImplOSX_Init(view);
 }
 
-void ImGuiPass::draw(MTL4::RenderPassDescriptor* render_pass_descriptor, MTL4::CommandBuffer* command_buffer, MTL4::RenderCommandEncoder* render_encoder, MTL::ResidencySet* residency_set)
+void ImGuiPass::draw(MTL4::RenderPassDescriptor* render_pass_descriptor,
+                     MTL4::CommandBuffer* command_buffer,
+                     MTL4::RenderCommandEncoder* render_encoder,
+                     MTL::ResidencySet* residency_set)
 {
     ImGuiIO& io = ImGui::GetIO();
     io.DisplaySize.x = view->drawableSize().width;
@@ -47,12 +47,12 @@ void ImGuiPass::draw(MTL4::RenderPassDescriptor* render_pass_descriptor, MTL4::C
         ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
 
         ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-//        if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-//            counter++;
-//        ImGui::SameLine();
-//        ImGui::Text("counter = %d", counter);
+        if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
+            counter++;
+        ImGui::SameLine();
+        ImGui::Text("counter = %d", counter);
 
-//        ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
+        ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
         ImGui::End();
     }
 
@@ -62,8 +62,6 @@ void ImGuiPass::draw(MTL4::RenderPassDescriptor* render_pass_descriptor, MTL4::C
     render_encoder->pushDebugGroup(NS::String::string("ImGui Rendering", NS::UTF8StringEncoding));
     ImGui_ImplMetal_RenderDrawData(draw_data, command_buffer, render_encoder, residency_set);
     render_encoder->popDebugGroup();
-    
-    
 }
 
 ImGuiPass::~ImGuiPass()

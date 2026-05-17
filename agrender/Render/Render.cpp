@@ -27,14 +27,28 @@ void Renderer::draw(MTK::View* pView)
         .residency_set = _pResidencySet
     };
     
+    update_render_uniforms();
+    
     // TODO: Move somewhere to manager all gpu resources
     _pVertexArgumentTable->setAddress(gpu_model.vertexBuffer->gpuAddress(), 0);
+    _pVertexArgumentTable->setAddress(render_uniforms_buffer->gpuAddress(), 1);
     
     render_pipeline.render(frame_data, gpu_model);
     
     command_buffer->endCommandBuffer();
     submitCommandBuffer(command_buffer, command_queue, pView);
     command_queue->signalEvent(_pSharedEvent, _frameNumber);
+}
+
+void Renderer::update_render_uniforms()
+{
+//    _mainCamera.SetPosition(_mainCamera._position + simd::float3{0.01});
+    CGSize size = mtk_view->drawableSize();
+    CameraUniforms camera_uniforms = _mainCamera.GetUpdateUniforms(static_cast<float>(size.width), static_cast<float>(size.height));
+    uniforms.viewMatrix = camera_uniforms.viewMatrix;
+    uniforms.projectionMatrix = camera_uniforms.projectionMatrix;
+    uniforms.modelMatrix = MathUtils::Identity();
+    std::memcpy(render_uniforms_buffer->contents(), &uniforms, sizeof(uniforms));
 }
 
 std::vector<MTL4::CommandAllocator*> Renderer::makeCommandAllocators(uint count) {
@@ -124,6 +138,9 @@ void Renderer::initializeResources()
     uploader.initialize(device);
     gpu_model = uploader.upload(model);
     
+    render_uniforms_buffer = device->newBuffer(sizeof(GpuUniforms), MTL::ResourceStorageModeShared);
+    _pResidencySet->addAllocation(render_uniforms_buffer);
+
     _pResidencySet->addAllocation(gpu_model.indexBuffer);
     _pResidencySet->addAllocation(gpu_model.vertexBuffer);
     
@@ -132,7 +149,7 @@ void Renderer::initializeResources()
 //    _triangleVertexBuffers = makeTriangleDataBuffers(kMaxFramesInFlight);
     _pViewportSizeBuffer = device->newBuffer(sizeof(_viewportSize), MTL::ResourceStorageModeShared);
     _pUniformsBuffer = device->newBuffer(sizeof(CameraUniforms), MTL::ResourceStorageModeShared);
-    uniforms.modelViewMatrix = MathUtils::Identity();
+//    uniforms.modelViewMatrix = MathUtils::Identity();
     
     // Add allocations to residency set
     _pResidencySet->addAllocation(_pViewportSizeBuffer);

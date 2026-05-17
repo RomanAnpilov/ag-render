@@ -106,6 +106,7 @@
 
 
 #include <metal_stdlib>
+#include "ShaderTypes.h"
 using namespace metal;
 
 struct Vertex {
@@ -117,18 +118,26 @@ struct Vertex {
 
 struct VSOut {
     float4 position [[position]];
+    float3 normal;
 };
 
-vertex VSOut vertexMain(uint vid [[vertex_id]], device const Vertex* verticies [[buffer(0)]])
+vertex VSOut vertexMain(uint vid [[vertex_id]],
+                        device const Vertex* verticies [[buffer(0)]],
+                        device const GpuUniforms* uniforms [[buffer(1)]])
 {
+    float4x4 mvp_matrix = uniforms->projectionMatrix * uniforms->viewMatrix * uniforms->modelMatrix;
     Vertex v = verticies[vid];
 
     VSOut out;
-    out.position = float4(v.position, 1.0);
+    out.position = mvp_matrix * float4(v.position, 1.0);
+    out.normal = v.normal;
     return out;
 }
 
-fragment half4 fragmentMain()
+fragment half4 fragmentMain(VSOut in [[stage_in]])
 {
-    return half4(1.0, 0.2, 0.1, 1.0);
+    float3 lightDir = normalize(float3(1.0, 1.0, 1.0));
+    float diff = max(dot(normalize(in.normal), lightDir), 0.1);
+    half3 color = half3(1.0, 0.2, 0.1);
+    return half4(color * diff, 1.0);
 }

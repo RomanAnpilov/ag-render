@@ -20,8 +20,9 @@ public:
     void SetFOV(float degrees);
 
     CameraUniforms GetUpdateUniforms(float screenWidth, float screenHeight);
-private:
+    
     simd_float3 _position;
+private:
     simd_float3 _target;
     simd_float3 _up;
     float       _fovRadians;

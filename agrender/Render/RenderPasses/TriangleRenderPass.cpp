@@ -19,8 +19,8 @@ void TriangleRenderPass::draw(MTL4::RenderCommandEncoder* render_encoder, const 
     // put it somewhere
     
     //
-    //    uniforms = _mainCamera.GetUpdateUniforms(1024, 1024);
-    //    uniforms.modelViewMatrix = MathUtils::Identity();
+//        uniforms = _mainCamera.GetUpdateUniforms(1024, 1024);
+//        uniforms.modelViewMatrix = MathUtils::Identity();
     //    uniforms.modelViewMatrix = simd_mul(uniforms.modelViewMatrix, rotationY);
     //    void* pBufferContents = _pUniformsBuffer->contents();
     //    std::memcpy(pBufferContents, &uniforms, sizeof(uniforms));

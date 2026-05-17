@@ -37,7 +37,8 @@ CameraUniforms Camera::GetUpdateUniforms(float width, float height) {
     
     CameraUniforms uniforms;
     
-    uniforms.viewProjectionMatrix = simd_mul(projectionMatrix, viewMatrix);
+    uniforms.viewMatrix = viewMatrix;
+    uniforms.projectionMatrix = projectionMatrix;
     
     uniforms.cameraPosition = _position;
     

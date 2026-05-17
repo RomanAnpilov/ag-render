@@ -27,6 +27,10 @@ public:
     void draw(MTK::View* pView);
     
 private:
+    GpuUniforms uniforms;
+    MTL::Buffer* render_uniforms_buffer;
+    void update_render_uniforms();
+    
     GpuModel gpu_model;
     MTL::Device* device;
     MTK::View* mtk_view;
@@ -55,7 +59,7 @@ private:
     // Utilites and services
     Camera _mainCamera;
     simd_uint2 _viewportSize;
-    CameraUniforms uniforms;
+//    CameraUniforms uniforms;
     void updateViewportSize(const simd::float2& size);
     void setViewportSize(simd_uint2 size, MTL4::RenderCommandEncoder* pRenderEncoder);
 

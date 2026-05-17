@@ -10,6 +10,13 @@
 
 #include <simd/simd.h>
 
+typedef struct
+{
+    simd_float4x4 viewMatrix;
+    simd_float4x4 projectionMatrix;
+    simd_float4x4 modelMatrix;
+} GpuUniforms;
+
 typedef struct {
     simd_float3 position;
     simd_float4 color;
@@ -21,7 +28,8 @@ typedef struct {
 } Uniforms;
 
 typedef struct {
-    simd_float4x4 viewProjectionMatrix;
+    simd_float4x4 viewMatrix;
+    simd_float4x4 projectionMatrix;
     simd_float3   cameraPosition;
     simd_float4x4 modelViewMatrix;
 } CameraUniforms;
